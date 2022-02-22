@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "analyze": {
+      "commandName": "Project",
+      "commandLineArgs": "analyze"
+    },
+    "list": {
+      "commandName": "Project",
+      "commandLineArgs": "list"
+    }
+  }
+}
