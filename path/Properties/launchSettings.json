@@ -11,6 +11,10 @@
     "usage": {
       "commandName": "Project",
       "commandLineArgs": "-?"
+    },
+    "analyze --fix": {
+      "commandName": "Project",
+      "commandLineArgs": "analyze --fix -g"
     }
   }
 }

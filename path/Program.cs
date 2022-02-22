@@ -77,6 +77,12 @@ public static class Program
             : new HashSet<string>();
         var analyzer = new PathAnalyzer(exts);
         var problems = analyzer.Analyze(path);
+        if (!problems.Any())
+        {
+            Console.WriteLine("No problems with PATH found");
+            return;
+        }
+
         foreach (var (dir, problem) in problems)
         {
             AnsiConsole.MarkupLine($"{dir} [red]{problemToString(problem)}[/]");
@@ -87,14 +93,64 @@ public static class Program
             return;
         }
 
+        int originalCount = path.Items.Count;
+        int originalPathLen = path.ToString().Length;
+
         Console.WriteLine("Fixing problems:");
         foreach (var (dir, problem) in problems)
         {
             Console.Write($"{dir}: ");
 
-            // AnsiConsole.Markup($"{problem.Key} [red]{problemToString(problem.Value)}[/]");
-        }
+            if ((problem & (PathProblem.Empty|PathProblem.Missing|PathProblem.NoExecutables)) != 0)
+            {
+                if (path.RemoveAll(dir))
+                {
+                    AnsiConsole.Markup("[green]Removed[/] ");
+                }
+                else
+                {
+                    AnsiConsole.Markup("[green]Sorted itself out, huh[/] ");
+                }
+            }
 
+            if (problem.HasFlag(PathProblem.Duplicate))
+            {
+                // leave only the topmost entry in the PATH
+                int index = path.Items.IndexOf(dir);
+                bool cleanedUp = false;
+                if (index >= 0)
+                {
+                    for (int i = index + 1; i < path.Items.Count; i++)
+                    {
+                        if (SemicolonSeparatedString.AreItemsSame(dir, path.Items[i]))
+                        {
+                            path.Items.RemoveAt(i);
+                            cleanedUp = true;
+                            i--;
+                        }
+                    }
+                }
+                if (cleanedUp)
+                {
+                    AnsiConsole.Markup("[green]Dupes removed[/] ");
+                }
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine();
+
+        // writePath(path, global);
+        int newPathLen = path.ToString().Length;
+        int savings = originalPathLen - newPathLen;
+        int perc = (originalPathLen - newPathLen) * 100 / originalPathLen;
+
+        int itemsRemoved = originalCount - path.Items.Count;
+        if (itemsRemoved ==0)
+        {
+            Console.WriteLine("No problems fixed");
+        }
+        AnsiConsole.MarkupLine($"[green]{itemsRemoved}[/] unnecessary PATH items removed");
+        AnsiConsole.MarkupLine($"[green]{savings}[/] characters saved ({perc}% saved)");
     }
 
     private static string problemToString(PathProblem value)
