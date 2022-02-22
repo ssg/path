@@ -2,7 +2,7 @@
   "profiles": {
     "analyze": {
       "commandName": "Project",
-      "commandLineArgs": "analyze"
+      "commandLineArgs": "analyze -g"
     },
     "list": {
       "commandName": "Project",

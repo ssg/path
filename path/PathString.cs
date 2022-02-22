@@ -3,7 +3,7 @@
 /// <summary>
 /// PATH version of a SemicolonSeparatedString
 /// </summary>
-internal class PathString : SemicolonSeparatedString
+public class PathString : SemicolonSeparatedString
 {
     public PathString(string value)
         : base(value)

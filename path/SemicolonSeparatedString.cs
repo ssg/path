@@ -5,21 +5,21 @@ namespace Path;
 /// <summary>
 /// Case-insensitive item list separated by semicolon
 /// </summary>
-internal class SemicolonSeparatedString
+public class SemicolonSeparatedString
 {
     protected const char PathSeparator = ';';
     protected const char QuoteChar = '"';
 
     public IList<string> Items { get; }
 
-    private static readonly Regex parser = new("\\s*(\"[^;\"]+\"|[^;\"]+)\\s*;?",
+    private static readonly Regex parseRegex = new("\\s*(\"[^\"]+\"|[^;\"]+)\\s*;?",
         RegexOptions.Compiled
         |RegexOptions.CultureInvariant
         |RegexOptions.Singleline);
 
     public SemicolonSeparatedString(string value)
     {
-        var matches = parser.Matches(value);
+        var matches = parseRegex.Matches(value);
         Items = new List<string>(matches.Count);
         foreach (Match match in matches)
         {

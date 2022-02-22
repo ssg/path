@@ -4,12 +4,12 @@ root = true
 indent_size = 4
 indent_style = space
 trim_trailing_whitespace = true
+guidelines = 110
 
 [*.csproj]
 indent_size = 2
 
 [*.cs]
-guidelines = 110
 #### Naming styles ####
 
 # Naming rules
