@@ -22,7 +22,7 @@ public static class Program
         static Option getGlobalOption()
         {
             return new Option<bool>(new[] { "--global", "-g" }, () => false,
-                "list both system and user environment variables (requires admin privileges)");
+                "use machine-level environment variables instead of user (requires admin privileges)");
         }
 
         static Argument getDirectoryOption(string description)
@@ -77,10 +77,24 @@ public static class Program
             : new HashSet<string>();
         var analyzer = new PathAnalyzer(exts);
         var problems = analyzer.Analyze(path);
-        foreach (var problem in problems)
+        foreach (var (dir, problem) in problems)
         {
-            AnsiConsole.MarkupLine($"{problem.Key} [red]{problemToString(problem.Value)}[/]");
+            AnsiConsole.MarkupLine($"{dir} [red]{problemToString(problem)}[/]");
         }
+
+        if (!fix)
+        {
+            return;
+        }
+
+        Console.WriteLine("Fixing problems:");
+        foreach (var (dir, problem) in problems)
+        {
+            Console.Write($"{dir}: ");
+
+            // AnsiConsole.Markup($"{problem.Key} [red]{problemToString(problem.Value)}[/]");
+        }
+
     }
 
     private static string problemToString(PathProblem value)
