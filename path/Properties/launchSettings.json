@@ -12,9 +12,9 @@
       "commandName": "Project",
       "commandLineArgs": "-?"
     },
-    "analyze --fix": {
+    "analyze --fix --whatif": {
       "commandName": "Project",
-      "commandLineArgs": "analyze --fix -g"
+      "commandLineArgs": "analyze --fix -g --whatif"
     }
   }
 }
