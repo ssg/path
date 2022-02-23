@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Path;
 
-static class CommandExtensions
+static class RootCommandExtensions
 {
-    public static void AddSubCommands(this Command rootCommand, Assembly assembly)
+    public static void AddSubCommands(this RootCommand rootCommand, Assembly assembly)
     {
         var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(CommandBase)));
         foreach (Type type in types)
