@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Path;
 
-static class CommandBuilderExtension
+static class CommandExtensions
 {
     public static void AddSubCommands(this Command rootCommand, Assembly assembly)
     {
