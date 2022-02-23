@@ -4,13 +4,13 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <Nullable>enable</Nullable>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishTrimmed>true</PublishTrimmed>
     <ImplicitUsings>enable</ImplicitUsings>
     <Version>0.1.0</Version>
-    <Nullable>enable</Nullable>
     <Authors>Sedat Kapanoglu</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  
   </PropertyGroup>
 
   <ItemGroup>
