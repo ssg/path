@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.CommandLine;
+using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Reflection;
 
@@ -13,12 +14,20 @@ public static class Program
 
     public static int Main(string[] args)
     {
-        checkOS();        
-        RootCommand cmd = new($@"PATH environment variable manager v{version}
-Copyright (c) 2022 Sedat Kapanoglu - https://github.com/ssg/path");
-        cmd.TreatUnmatchedTokensAsErrors = true;
-        cmd.AddSubCommands(Assembly.GetExecutingAssembly());
-        return cmd.Invoke(args);
+        checkOS();
+        var provider = new ServiceCollection()
+            .AddCommands(Assembly.GetExecutingAssembly())
+            .BuildServiceProvider();
+        var rootCmd = new RootCommand($@"PATH environment variable manager v{version}
+Copyright (c) 2022 Sedat Kapanoglu - https://github.com/ssg/path")
+        {
+            TreatUnmatchedTokensAsErrors = true
+        };
+        var builder = new CommandLineBuilder(rootCmd)
+            .UseDefaults()
+            .UseServiceProviderCommands(provider);
+        var parser = builder.Build();
+        return parser.Invoke(args);
     }
 
     private static void checkOS()

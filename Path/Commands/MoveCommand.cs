@@ -23,10 +23,10 @@ class MoveCommand : Command
             Arity = ArgumentArity.ZeroOrOne
         });
         this.AddGlobalOption();
-        Handler = CommandHandler.Create(run);
+        Handler = CommandHandler.Create(Run);
     }
 
-    private static void run(string directory, MoveType moveType, string? destination, bool global)
+    public static int Run(string directory, MoveType moveType, string? destination, bool global)
     {
         bool isValidDestination()
         {
@@ -41,7 +41,7 @@ class MoveCommand : Command
         if (path.Items.IndexOf(directory) < 0)
         {
             Console.Error.WriteLine("directory doesn't exist in PATH");
-            return;
+            return 1;
         }
 
         bool result = moveType switch
@@ -62,6 +62,8 @@ class MoveCommand : Command
             {
                 Console.Error.WriteLine("Invalid index");
             }
+            return 1;
         }
+        return 0;
     }
 }
