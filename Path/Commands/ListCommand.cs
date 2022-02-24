@@ -3,16 +3,13 @@ using System.CommandLine.NamingConventionBinder;
 
 namespace Path.Commands;
 
-class ListCommand : CommandBase
+class ListCommand : Command
 {
-    public override Command GetCommand()
+    public ListCommand()
+        : base("list", "list directories in PATH")
     {
-        var listCmd = new Command("list", "list directories in PATH")
-        {
-            getGlobalOption(),
-        };
-        listCmd.Handler = CommandHandler.Create<bool>(global => run(global));
-        return listCmd;
+        this.AddGlobalOption();
+        Handler = CommandHandler.Create(run);
     }
 
     private static void run(bool global)

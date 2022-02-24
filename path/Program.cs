@@ -1,4 +1,5 @@
-﻿using System.CommandLine;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.Reflection;
 
@@ -13,6 +14,7 @@ public static class Program
     public static int Main(string[] args)
     {
         checkOS();
+
         RootCommand cmd = new($@"PATH environment variable manager v{version}
 Copyright (c) 2022 Sedat Kapanoglu - https://github.com/ssg/path");
         cmd.TreatUnmatchedTokensAsErrors = true;

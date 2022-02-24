@@ -3,28 +3,25 @@ using System.CommandLine.NamingConventionBinder;
 
 namespace Path.Commands;
 
-class AddCommand : CommandBase
+class AddCommand : Command
 {
-    public override Command GetCommand()
+    public AddCommand()
+        : base("add", "add directory to PATH")
     {
-        var addCmd = new Command("add", "add directory to PATH")
-        {
-            getDirectoryOption("directory to add"),
-            getGlobalOption(),
-        };
-        addCmd.Handler = CommandHandler.Create<string, bool>((directory, global) => run(directory, global));
-        return addCmd;
+        this.AddDirectoryArgument("directory to add");
+        this.AddGlobalOption();
+        Handler = CommandHandler.Create(run);
     }
 
-    private static void run(string dir, bool global)
+    private static void run(string directory, bool global)
     {
         var path = OSEnv.ReadPath(global);
-        if (!path.Add(dir))
+        if (!path.Add(directory))
         {
-            Console.WriteLine($"{dir} is already in PATH");
+            Console.WriteLine($"{directory} is already in PATH");
             return;
         }
         OSEnv.WritePath(path, global);
-        Console.WriteLine($"{dir} added to PATH");
+        Console.WriteLine($"{directory} added to PATH");
     }
 }

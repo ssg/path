@@ -4,18 +4,15 @@ using System.CommandLine.NamingConventionBinder;
 
 namespace Path.Commands;
 
-class AnalyzeCommand : CommandBase
+class AnalyzeCommand : Command
 {
-    public override Command GetCommand()
+    public AnalyzeCommand()
+        : base("analyze", "find invalid/duplicate/redundant entries in PATH")
     {
-        var analyzeCmd = new Command("analyze", "find invalid/duplicate/redundant entries in PATH")
-        {
-            new Option<bool>("--fix", () => false, "Make changes to the PATH to fix the issues"),
-            new Option<bool>("--whatif", () => false, "Don't save the repairs, just show them (implies --fix)"),
-            getGlobalOption(),
-        };
-        analyzeCmd.Handler = CommandHandler.Create<bool, bool, bool>((fix, whatif, global) => run(fix, whatif, global));
-        return analyzeCmd;
+        AddOption(new Option<bool>("--fix", () => false, "Make changes to the PATH to fix the issues"));
+        AddOption(new Option<bool>("--whatif", () => false, "Don't save the repairs, just show them (implies --fix)"));
+        this.AddGlobalOption();
+        Handler = CommandHandler.Create(run);
     }
 
     private static void run(bool fix, bool whatif, bool global)

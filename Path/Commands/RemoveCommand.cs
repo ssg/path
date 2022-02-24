@@ -3,28 +3,25 @@ using System.CommandLine.NamingConventionBinder;
 
 namespace Path.Commands;
 
-class RemoveCommand : CommandBase
+class RemoveCommand : Command
 {
-    public override Command GetCommand()
+    public RemoveCommand()
+        : base("remove", "remove all instances of the directory from PATH")
     {
-        var removeCmd = new Command("remove", "remove all instances of the directory from PATH")
-        {
-            getDirectoryOption("directory to remove"),
-        };
-        removeCmd.Handler = CommandHandler.Create<string, bool>((directory, global) => run(directory, global));
-        return removeCmd;
+        this.AddDirectoryArgument("directory to remove");
+        Handler = CommandHandler.Create(run);
     }
 
-    private static void run(string dir, bool global)
+    private static void run(string directory, bool global)
     {
         var path = OSEnv.ReadPath(global);
-        bool found = path.RemoveAll(dir);
+        bool found = path.RemoveAll(directory);
         if (!found)
         {
-            Console.WriteLine($"{dir} wasn't in PATH");
+            Console.WriteLine($"{directory} wasn't in PATH");
             return;
         }
-        Console.WriteLine($"{dir} removed from PATH");
+        Console.WriteLine($"{directory} removed from PATH");
         OSEnv.WritePath(path, global);
     }
 }

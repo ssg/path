@@ -40,4 +40,45 @@ public class PathString : SemicolonSeparatedString
         }
         return found;
     }
+
+    public bool MoveBefore(string directory, string destination)
+    {
+        int srcIndex = Items.IndexOf(directory);
+        int destIndex = Items.IndexOf(destination);
+        if (destIndex > srcIndex)
+        {
+            destIndex--;
+        }
+        return move(directory, srcIndex, destIndex);
+    }
+
+    public bool MoveAfter(string directory, string destination)
+    {
+        int srcIndex = Items.IndexOf(directory);
+        int destIndex = Items.IndexOf(destination);
+        if (srcIndex > destIndex)
+        {
+            destIndex++;
+        }
+        return move(directory, srcIndex, destIndex);
+    }
+
+    public bool MoveTo(string directory, int destinationIndex)
+    {
+        return move(directory, Items.IndexOf(directory), destinationIndex);
+    }
+
+    private bool move(string directory, int srcIndex, int destIndex)
+    {
+        if (srcIndex < 0 || destIndex < 0 || destIndex >= Items.Count)
+        {
+            return false;
+        }
+        if (srcIndex != destIndex)
+        {
+            Items.RemoveAt(srcIndex);
+            Items.Insert(destIndex, directory);
+        }
+        return true;
+    }
 }
