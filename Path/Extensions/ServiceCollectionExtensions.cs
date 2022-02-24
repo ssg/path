@@ -11,8 +11,8 @@ public static class ServiceCollectionExtensions
         var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Command)));
         foreach (Type type in types)
         {
-            var cmd = (Activator.CreateInstance(type) as Command)!;
-            _ = services.AddSingleton(typeof(Command), cmd);
+            Command cmd = (Command)Activator.CreateInstance(type)!;
+            _ = services.AddSingleton(cmd);
         }
         return services;
     }
