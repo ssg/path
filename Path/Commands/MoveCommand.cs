@@ -5,10 +5,10 @@ namespace Path.Commands;
 
 public enum MoveType
 {
-    top,
-    bottom,
-    before,
-    after,
+    Top,
+    Bottom,
+    Before,
+    After,
 }
 
 class MoveCommand : Command
@@ -46,15 +46,15 @@ class MoveCommand : Command
 
         bool result = moveType switch
         {
-            MoveType.before => isValidDestination() && path.MoveBefore(directory, destination!),
-            MoveType.after => isValidDestination() && path.MoveAfter(directory, destination!),
-            MoveType.top => path.MoveTo(directory, 0),
-            MoveType.bottom => path.MoveTo(directory, path.Items.Count),
+            MoveType.Before => isValidDestination() && path.MoveBefore(directory, destination!),
+            MoveType.After => isValidDestination() && path.MoveAfter(directory, destination!),
+            MoveType.Top => path.MoveTo(directory, 0),
+            MoveType.Bottom => path.MoveTo(directory, path.Items.Count),
             _ => throw new ArgumentOutOfRangeException(nameof(moveType), $"Invalid value: {moveType}")
         };
         if (!result)
         {
-            if (moveType is MoveType.before or MoveType.after)
+            if (moveType is MoveType.Before or MoveType.After)
             {
                 Console.Error.WriteLine("Couldn't find destination directory in PATH");
             }

@@ -13,8 +13,7 @@ public static class Program
 
     public static int Main(string[] args)
     {
-        checkOS();
-
+        checkOS();        
         RootCommand cmd = new($@"PATH environment variable manager v{version}
 Copyright (c) 2022 Sedat Kapanoglu - https://github.com/ssg/path");
         cmd.TreatUnmatchedTokensAsErrors = true;
