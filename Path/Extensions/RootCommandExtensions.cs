@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Path;
 
-static class RootCommandExtensions
+public static class RootCommandExtensions
 {
     public static void AddSubCommands(this RootCommand rootCommand, Assembly assembly)
     {
