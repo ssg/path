@@ -1,3 +1,5 @@
+[![.NET](https://github.com/ssg/path/actions/workflows/build-test.yml/badge.svg)](https://github.com/ssg/path/actions/workflows/build-test.yml)
+
 # path
 Path is a command-line tool to manage PATH environment variable on Windows.
 It's a successor to my PathCleaner project.
