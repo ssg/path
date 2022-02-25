@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <Description>Manage PATH environment variable from the command-line.</Description>
     <TargetFramework>net6.0</TargetFramework>
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
-    <PublishReadyToRun>true</PublishReadyToRun>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>0.1.0</Version>
+    <Version>0.1.0-alpha</Version>
     <Authors>Sedat Kapanoglu</Authors>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>  
   </PropertyGroup>
 
   <ItemGroup>
