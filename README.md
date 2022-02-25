@@ -16,7 +16,7 @@ Want to add it to the machine-level PATH? Run this on an elevated prompt instead
 path add C:\some\new\path --global
 ```
 
-Directories in PATH searched in the order of addition. Want to move a directory higher up in the PATH?
+Directories in PATH are searched in the order of addition. Want to move a directory higher up in the PATH?
 This command will move the directory to the beginning of the PATH:
 
 ```bat
@@ -55,7 +55,8 @@ Use only if you know what you're doing. You've been warned.
 # why
 PATH management is hard, and PATH becomes a cluttered thing over time. I also
 wanted to develop a tool with .NET 6 + System.CommandLine + Spectre.Console
-to learn more about them. Love them so far! 
+to learn more about them. I also learned a lot about GitHub Actions while coding this.
+Love all of them so far! 
 
 # license
 MIT license. See LICENSE.md file for details.
