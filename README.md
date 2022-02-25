@@ -16,6 +16,12 @@ Want to add it to the machine-level PATH? Run this on an elevated prompt instead
 path add C:\some\new\path --global
 ```
 
+Want to remove all instances of a directory from a PATH with a single command? Here it is:
+
+```bat
+path remove C:\some\existing\path\
+```
+
 Directories in PATH are searched in the order of addition. Want to move a directory higher up in the PATH?
 This command will move the directory to the beginning of the PATH:
 
@@ -27,6 +33,12 @@ Want to move a directory after another directory?
 
 ```bat
 path move C:\some\new\path after C:\Windows
+```
+
+or before?
+
+```bat
+path move C:\som\new\path before C:\Windows
 ```
 
 Over time, PATH might get cluttered with empty, orphaned folders without any executables in them. Use
