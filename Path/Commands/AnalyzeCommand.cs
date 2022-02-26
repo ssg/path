@@ -14,11 +14,11 @@ class AnalyzeCommand : Command
         AddOption(new Option<bool>("--fix", () => false, "Make changes to the PATH to fix the issues"));
         AddOption(new Option<bool>("--whatif", () => false, "Don't save the repairs, just show them (implies --fix)"));
         this.AddGlobalOption();
-        Handler = CommandHandler.Create(run);
+        Handler = CommandHandler.Create(Run);
         this.env = env;
     }
 
-    private void run(bool fix, bool whatif, bool global)
+    public void Run(bool fix, bool whatif, bool global)
     {
         var path = env.ReadPath(global);
         IReadOnlySet<string> exts = env.GetExecutableExtensions();

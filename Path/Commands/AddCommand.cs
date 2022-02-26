@@ -12,11 +12,11 @@ class AddCommand : Command
     {
         this.AddDirectoryArgument("directory to add");
         this.AddGlobalOption();
-        Handler = CommandHandler.Create(run);
+        Handler = CommandHandler.Create(Run);
         this.env = env;
     }
 
-    private void run(string directory, bool global)
+    public void Run(string directory, bool global)
     {
         var path = env.ReadPath(global);
         if (!path.Add(directory))

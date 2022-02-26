@@ -11,11 +11,11 @@ class ListCommand : Command
         : base("list", "list directories in PATH")
     {
         this.AddGlobalOption();
-        Handler = CommandHandler.Create(run);
+        Handler = CommandHandler.Create(Run);
         this.env = env;
     }
 
-    private void run(bool global)
+    public void Run(bool global)
     {
         var path = env.ReadPath(global);
         foreach (string dir in path.Items)

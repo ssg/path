@@ -11,11 +11,11 @@ class RemoveCommand : Command
         : base("remove", "remove all instances of the directory from PATH")
     {
         this.AddDirectoryArgument("directory to remove");
-        Handler = CommandHandler.Create(run);
+        Handler = CommandHandler.Create(Run);
         this.env = env;
     }
 
-    private void run(string directory, bool global)
+    public void Run(string directory, bool global)
     {
         var path = env.ReadPath(global);
         bool found = path.RemoveAll(directory);
