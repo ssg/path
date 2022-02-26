@@ -4,10 +4,6 @@
       "commandName": "Project",
       "commandLineArgs": "analyze -g"
     },
-    "list": {
-      "commandName": "Project",
-      "commandLineArgs": "list"
-    },
     "usage": {
       "commandName": "Project",
       "commandLineArgs": "-?"
@@ -15,6 +11,14 @@
     "analyze --fix --whatif": {
       "commandName": "Project",
       "commandLineArgs": "analyze --fix -g --whatif"
+    },
+    "list --global": {
+      "commandName": "Project",
+      "commandLineArgs": "list --global"
+    },
+    "list": {
+      "commandName": "Project",
+      "commandLineArgs": "list"
     }
   }
 }
