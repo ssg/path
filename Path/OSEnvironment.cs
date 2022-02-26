@@ -2,12 +2,12 @@
 
 namespace Path
 {
-    public static class OSEnv
+    public class OSEnvironment : IEnvironment
     {
         private const string pathKey = "PATH";
         private const string pathExtKey = "PATHEXT";
 
-        public static void WritePath(PathString path, bool global)
+        public void WritePath(PathString path, bool global)
         {
             string value = path.ToString();
             try
@@ -25,13 +25,13 @@ namespace Path
             return global ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
         }
 
-        public static PathString ReadPath(bool global)
+        public PathString ReadPath(bool global)
         {
             string value = Environment.GetEnvironmentVariable(pathKey, getEnvTarget(global)) ?? string.Empty;
             return new PathString(value);
         }
 
-        public static IReadOnlySet<string> GetExecutableExtensions()
+        public IReadOnlySet<string> GetExecutableExtensions()
         {
             var pathExt = Environment.GetEnvironmentVariable(pathExtKey);
             var exts = pathExt is string ext

@@ -13,7 +13,9 @@ public enum MoveType
 
 class MoveCommand : Command
 {
-    public MoveCommand()
+    private readonly IEnvironment env;
+
+    public MoveCommand(IEnvironment env)
         : base("move", "move path directory to another place")
     {
         this.AddDirectoryArgument("directory to move");
@@ -24,9 +26,10 @@ class MoveCommand : Command
         });
         this.AddGlobalOption();
         Handler = CommandHandler.Create(Run);
+        this.env = env;
     }
 
-    public static int Run(string directory, MoveType moveType, string? destination, bool global)
+    public int Run(string directory, MoveType moveType, string? destination, bool global)
     {
         bool isValidDestination()
         {
@@ -37,7 +40,7 @@ class MoveCommand : Command
             }
             return true;
         }
-        var path = OSEnv.ReadPath(global);
+        var path = env.ReadPath(global);
         if (path.Items.IndexOf(directory) < 0)
         {
             Console.Error.WriteLine("directory doesn't exist in PATH");

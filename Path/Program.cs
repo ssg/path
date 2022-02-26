@@ -17,6 +17,7 @@ public static class Program
         checkOS();
         var provider = new ServiceCollection()
             .AddCommands(Assembly.GetExecutingAssembly())
+            .AddSingleton<IEnvironment>(new OSEnvironment())
             .BuildServiceProvider();
         var rootCmd = new RootCommand($@"PATH environment variable manager v{version}
 Copyright (c) 2022 Sedat Kapanoglu - https://github.com/ssg/path")

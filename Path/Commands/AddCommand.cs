@@ -5,23 +5,26 @@ namespace Path.Commands;
 
 class AddCommand : Command
 {
-    public AddCommand()
+    private readonly IEnvironment env;
+
+    public AddCommand(IEnvironment env)
         : base("add", "add directory to PATH")
     {
         this.AddDirectoryArgument("directory to add");
         this.AddGlobalOption();
         Handler = CommandHandler.Create(run);
+        this.env = env;
     }
 
-    private static void run(string directory, bool global)
+    private void run(string directory, bool global)
     {
-        var path = OSEnv.ReadPath(global);
+        var path = env.ReadPath(global);
         if (!path.Add(directory))
         {
             Console.WriteLine($"{directory} is already in PATH");
             return;
         }
-        OSEnv.WritePath(path, global);
+        env.WritePath(path, global);
         Console.WriteLine($"{directory} added to PATH");
     }
 }

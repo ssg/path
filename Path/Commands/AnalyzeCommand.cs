@@ -6,19 +6,22 @@ namespace Path.Commands;
 
 class AnalyzeCommand : Command
 {
-    public AnalyzeCommand()
+    private readonly IEnvironment env;
+
+    public AnalyzeCommand(IEnvironment env)
         : base("analyze", "find invalid/duplicate/redundant entries in PATH")
     {
         AddOption(new Option<bool>("--fix", () => false, "Make changes to the PATH to fix the issues"));
         AddOption(new Option<bool>("--whatif", () => false, "Don't save the repairs, just show them (implies --fix)"));
         this.AddGlobalOption();
         Handler = CommandHandler.Create(run);
+        this.env = env;
     }
 
-    private static void run(bool fix, bool whatif, bool global)
+    private void run(bool fix, bool whatif, bool global)
     {
-        var path = OSEnv.ReadPath(global);
-        IReadOnlySet<string> exts = OSEnv.GetExecutableExtensions();
+        var path = env.ReadPath(global);
+        IReadOnlySet<string> exts = env.GetExecutableExtensions();
         var analyzer = new PathAnalyzer(exts);
         var problems = analyzer.Analyze(path);
         if (!problems.Any())
@@ -87,7 +90,7 @@ class AnalyzeCommand : Command
 
         if (!whatif)
         {
-            OSEnv.WritePath(path, global);
+            env.WritePath(path, global);
             Console.WriteLine("Changes saved");
         }
         int newPathLen = path.ToString().Length;
