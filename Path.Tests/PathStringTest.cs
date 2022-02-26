@@ -59,5 +59,18 @@ public class PathStringTest
         Assert.IsTrue(path.MoveAfter(dir, destDir));
         Assert.That(path.ToString(), Is.EqualTo(output));
     }
+
+    [Test]
+    [TestCase("")]
+    [TestCase("a")]
+    [TestCase("a;b")]
+    [TestCase("a;b;c")]
+    [TestCase("a;\"b;c\"")]
+    [TestCase("a;\"b;c\";d")]
+    public void ToString_PreservesTheString(string input)
+    {
+        var path = new PathString(input);
+        Assert.That(path.ToString(), Is.EqualTo(input));
+    }
 }
 
