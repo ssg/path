@@ -65,8 +65,13 @@ Messing with your PATH can easily cause your system to break or your application
 Use only if you know what you're doing. You've been warned.
 
 # why
-PATH management is hard, and PATH becomes a cluttered thing over time. I also
-wanted to develop a tool with .NET 6 + System.CommandLine + Spectre.Console
+PATH management in operating systems is inconsistent and unnecessarily cumbersome. PATH variable gets 
+cluttered over time too with many orphaned entries unnecessarily creating miniscule but non-zero overhead. 
+This tool is mostly a UX experiment on how to make PATH management from command-line better.
+Although, currently only Windows is supported, the ultimate goal is to make this tool's the standard syntax
+for interacting with paths on any OS. 
+
+I also wanted to develop a tool with .NET 6 + System.CommandLine + Spectre.Console
 to learn more about them. I also learned a lot about GitHub Actions while coding this.
 Love all of them so far! 
 
