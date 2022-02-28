@@ -1,4 +1,5 @@
 [![.NET](https://github.com/ssg/path/actions/workflows/build-test.yml/badge.svg)](https://github.com/ssg/path/actions/workflows/build-test.yml)
+![NuGet](https://img.shields.io/nuget/vpre/Path)
 
 # path
 Path is a command-line tool to manage PATH environment variable on Windows.
