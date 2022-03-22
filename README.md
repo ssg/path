@@ -69,7 +69,7 @@ Use only if you know what you're doing. You've been warned.
 PATH management in operating systems is inconsistent and unnecessarily cumbersome. PATH variable gets 
 cluttered over time too with many orphaned entries unnecessarily creating miniscule but non-zero overhead. 
 This tool is mostly a UX experiment on how to make PATH management from command-line better.
-Although, currently only Windows is supported, the ultimate goal is to make this tool's the standard syntax
+Although only Windows is supported currently, the ultimate goal is to make this tool the standard syntax
 for interacting with paths on any OS. 
 
 I also wanted to develop a tool with .NET 6 + System.CommandLine + Spectre.Console
