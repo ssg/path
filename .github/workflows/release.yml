@@ -4,6 +4,7 @@ on:
   push:
     tags:
         - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:  
 
 jobs:
   build:
@@ -26,6 +27,6 @@ jobs:
     - name: Push to GitHub feed
       run: dotnet nuget push Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${GITHUB_TOKEN}
     - name: Push to NuGet feed
-      run: dotnet nuget push Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${GITHUB_TOKEN}
+      run: dotnet nuget push Path.${VERSION}.nupkg --source  https://api.nuget.org/v3/index.json --api-key ${GITHUB_TOKEN}
       env:
         GITHUB_TOKEN: ${{ secrets.NUGET_API_KEY }}
