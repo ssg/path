@@ -5,6 +5,7 @@ namespace Path.Tests;
 [TestFixture]
 public class PathStringTest
 {
+#pragma warning disable CA1861 // Avoid constant arrays as arguments
     [Test]
     [TestCase("a;b", new[] { "a", "b" })]
     [TestCase("\"a\";\"b\"", new[] { "a", "b" })]
@@ -72,5 +73,5 @@ public class PathStringTest
         var path = new PathString(input);
         Assert.That(path.ToString(), Is.EqualTo(input));
     }
+#pragma warning restore CA1861 // Avoid constant arrays as arguments
 }
-
