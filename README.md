@@ -9,7 +9,7 @@ It's a successor to my PathCleaner project.
 Specifying version is required for pre-release projects on NuGet:
 
 ```
-dotnet tool install path --global --version 0.1.2-alpha
+dotnet tool install path --global 
 ```
 
 # ⚠️warning
