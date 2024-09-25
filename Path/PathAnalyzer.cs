@@ -1,19 +1,12 @@
 ﻿namespace Path;
 
-internal class PathAnalyzer
+/// <summary>
+/// Create an instance of PathAnalyzer.
+/// </summary>
+/// <param name="executableExtensions">List of executable extenions each prefixed with ".".</param>
+internal class PathAnalyzer(HashSet<string> executableExtensions)
 {
-    public IReadOnlySet<string> ExecutableExtensions { get; }
-
-    /// <summary>
-    /// Create an instance of PathAnalyzer.
-    /// </summary>
-    /// <param name="executableExtensions">List of executable extenions each prefixed with ".".</param>
-    public PathAnalyzer(IReadOnlySet<string> executableExtensions)
-    {
-        ExecutableExtensions = executableExtensions;
-    }
-
-    public IReadOnlyDictionary<string, PathProblem>Analyze(PathString path)
+    public SortedDictionary<string, PathProblem>Analyze(PathString path)
     {
         // basic analysis
         var results = new SortedDictionary<string, PathProblem>(StringComparer.OrdinalIgnoreCase);
@@ -27,7 +20,7 @@ internal class PathAnalyzer
         }
 
         // analyze dupes
-        if (ExecutableExtensions.Any())
+        if (executableExtensions.Count != 0)
         {
             var dupes = path.Items.GroupBy(s => s).Where(g => g.Count() > 1).Select(g => g.Key).Distinct();
             foreach (string dir in dupes)
@@ -39,7 +32,7 @@ internal class PathAnalyzer
         return results;
     }
 
-    private static void setProblem(IDictionary<string, PathProblem> results, string dir, PathProblem problem)
+    private static void setProblem(SortedDictionary<string, PathProblem> results, string dir, PathProblem problem)
     {
         if (results.ContainsKey(dir))
         {
@@ -67,7 +60,7 @@ internal class PathAnalyzer
         bool exeFound = false;
         foreach (var file in dirInfo.EnumerateFiles())
         {
-            if (ExecutableExtensions.Contains(file.Extension))
+            if (executableExtensions.Contains(file.Extension))
             {
                 exeFound = true;
                 break;

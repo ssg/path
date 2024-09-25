@@ -21,10 +21,10 @@ class AnalyzeCommand : Command
     public void Run(bool fix, bool whatif, bool global)
     {
         var path = env.ReadPath(global);
-        IReadOnlySet<string> exts = env.GetExecutableExtensions();
+        var exts = env.GetExecutableExtensions();
         var analyzer = new PathAnalyzer(exts);
         var problems = analyzer.Analyze(path);
-        if (!problems.Any())
+        if (problems.Count == 0)
         {
             Console.WriteLine("No problems with PATH found");
             return;
@@ -106,7 +106,7 @@ class AnalyzeCommand : Command
         AnsiConsole.MarkupLine($"[green]{savings}[/] characters saved ({perc}% saved)");
     }
 
-    private static readonly IReadOnlyDictionary<PathProblem, string> problemTextMap = new Dictionary<PathProblem, string>
+    private static readonly Dictionary<PathProblem, string> problemTextMap = new()
     {
         [PathProblem.Empty] = "Empty",
         [PathProblem.NoExecutables] = "No executables",
@@ -119,9 +119,9 @@ class AnalyzeCommand : Command
         var results = new List<string>();
         foreach (var enumValue in Enum.GetValues<PathProblem>())
         {
-            if (problemTextMap.ContainsKey(enumValue) && value.HasFlag(enumValue))
+            if (problemTextMap.TryGetValue(enumValue, out string? problemText) && value.HasFlag(enumValue))
             {
-                results.Add($"[[{problemTextMap[enumValue]}]]");
+                results.Add($"[[{problemText}]]");
             }
         }
         return string.Join(" ", results);

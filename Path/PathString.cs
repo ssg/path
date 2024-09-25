@@ -3,13 +3,8 @@
 /// <summary>
 /// PATH version of a SemicolonSeparatedString
 /// </summary>
-public class PathString : SemicolonSeparatedString
+public class PathString(string value) : SemicolonSeparatedString(value)
 {
-    public PathString(string value)
-        : base(value)
-    {
-    }
-
     public bool Add(string item)
     {
         item = item.Trim();

@@ -6,7 +6,7 @@ public static class CommandExtensions
 {
     public static void AddGlobalOption(this Command cmd)
     {
-        cmd.AddOption(new Option<bool>(new[] { "--global", "-g" }, () => false,
+        cmd.AddOption(new Option<bool>(["--global", "-g"], () => false,
             "use machine-level environment variables instead of user (requires admin privileges)"));
     }
 

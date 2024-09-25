@@ -31,12 +31,12 @@ namespace Path
             return new PathString(value);
         }
 
-        public IReadOnlySet<string> GetExecutableExtensions()
+        public HashSet<string> GetExecutableExtensions()
         {
             var pathExt = Environment.GetEnvironmentVariable(pathExtKey);
             var exts = pathExt is string ext
                 ? new HashSet<string>(ext.Split(';'))
-                : new HashSet<string>();
+                : [];
             return exts;
         }
     }
