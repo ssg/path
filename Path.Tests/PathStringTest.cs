@@ -23,7 +23,7 @@ public class PathStringTest
     public void MoveTo_ValidInput_Succeeds(string input, string dir, int destIndex, string output)
     {
         var path = new PathString(input);
-        Assert.IsTrue(path.MoveTo(dir, destIndex));
+        Assert.That(path.MoveTo(dir, destIndex), Is.True);
         Assert.That(path.ToString, Is.EqualTo(output));
     }
 
@@ -34,7 +34,7 @@ public class PathStringTest
     public void MoveTo_InvalidArguments_Fails(string input, string dir, int destIndex)
     {
         var path = new PathString(input);
-        Assert.IsFalse(path.MoveTo(dir, destIndex));
+        Assert.That(path.MoveTo(dir, destIndex), Is.False);
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class PathStringTest
     public void MoveBefore_ValidArguments_Succeeds(string input, string dir, string destDir, string output)
     {
         var path = new PathString(input);
-        Assert.IsTrue(path.MoveBefore(dir, destDir));
+        Assert.That(path.MoveBefore(dir, destDir), Is.True);
         Assert.That(path.ToString(), Is.EqualTo(output));
     }
 
@@ -56,7 +56,7 @@ public class PathStringTest
     public void MoveAfter_ValidArguments_Succeeds(string input, string dir, string destDir, string output)
     {
         var path = new PathString(input);
-        Assert.IsTrue(path.MoveAfter(dir, destDir));
+        Assert.That(path.MoveAfter(dir, destDir), Is.True);
         Assert.That(path.ToString(), Is.EqualTo(output));
     }
 
