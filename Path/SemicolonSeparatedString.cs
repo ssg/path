@@ -5,19 +5,18 @@ namespace Path;
 /// <summary>
 /// Case-insensitive item list separated by semicolon
 /// </summary>
-public partial class SemicolonSeparatedString
+public class SemicolonSeparatedString
 {
-    protected const char PathSeparator = ';';
     protected const char QuoteChar = '"';
 
     public IList<string> Items { get; }
 
-    [GeneratedRegex("\\s*(\"[^\"]+\"|[^;\"]+)\\s*;?", RegexOptions.CultureInvariant|RegexOptions.Singleline)]
-    private static partial Regex parseRegex();
+    private static readonly Regex parseRegex = new("\\s*(\"[^\"]+\"|[^" + System.IO.Path.PathSeparator + "\"]+)\\s*;?",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
     public SemicolonSeparatedString(string value)
     {
-        var matches = parseRegex().Matches(value);
+        var matches = parseRegex.Matches(value);
         Items = new List<string>(matches.Count);
         foreach (Match match in matches)
         {
@@ -37,8 +36,8 @@ public partial class SemicolonSeparatedString
 
     public override string ToString()
     {
-        return string.Join(PathSeparator, Items
-            .Select(s => s.Contains(PathSeparator, StringComparison.Ordinal) ? $"{QuoteChar}{s}{QuoteChar}" : s));
+        return string.Join(System.IO.Path.PathSeparator, Items
+            .Select(s => s.Contains(System.IO.Path.PathSeparator, StringComparison.Ordinal) ? $"{QuoteChar}{s}{QuoteChar}" : s));
     }
 
     public bool HasItem(string item)
