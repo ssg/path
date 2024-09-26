@@ -60,7 +60,7 @@ internal class PathAnalyzer(HashSet<string> executableExtensions)
         bool exeFound = false;
         foreach (var file in dirInfo.EnumerateFiles())
         {
-            if (executableExtensions.Contains(file.Extension))
+            if (executableExtensions.Contains(file.Extension, StringComparer.OrdinalIgnoreCase))
             {
                 exeFound = true;
                 break;
