@@ -24,13 +24,13 @@ jobs:
       run: dotnet test --configuration Release --no-build
 
     - name: Pack
-      run: dotnet pack --configuration Release --no-build --output .
+      run: dotnet pack --configuration Release --no-build --output . --verbosity normal
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: nupkg
-        path: Path.${VERSION}.nupkg
+        path: ./Path.${VERSION}.nupkg
 
   deploy-github:
     needs: build
