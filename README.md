@@ -9,8 +9,12 @@ It's a successor to my PathCleaner project.
 Specifying version is required for pre-release projects on NuGet:
 
 ```
-dotnet tool install path --global --version 0.1.2-alpha
+dotnet tool install path --global 
 ```
+
+# ⚠️warning
+Messing with your PATH can easily cause your system to break or your applications to stop running.
+Use only if you know what you're doing. You've been warned.
 
 # why
 PATH management in operating systems is inconsistent among platforms (even shells), and it's unnecessarily cumbersome. 
@@ -79,10 +83,6 @@ You might be scared of what fix will do, so you can run the same fix command wit
 ```bat
 path analyze --fix --whatif
 ```
-
-# warning
-Messing with your PATH can easily cause your system to break or your applications to stop running.
-Use only if you know what you're doing. You've been warned.
 
 # license
 MIT license. See LICENSE.md file for details.
