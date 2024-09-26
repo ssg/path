@@ -35,7 +35,7 @@ public class OSEnvironment : IEnvironment
     {
         var pathExt = Environment.GetEnvironmentVariable(pathExtKey);
         var exts = pathExt is string ext
-            ? new HashSet<string>(ext.Split(System.IO.Path.PathSeparator))
+            ? new HashSet<string>(ext.Split(Path.PathSeparator))
             : [];
         return exts;
     }

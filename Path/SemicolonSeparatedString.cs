@@ -11,7 +11,7 @@ public class SemicolonSeparatedString
 
     public IList<string> Items { get; }
 
-    private static readonly Regex parseRegex = new("\\s*(\"[^\"]+\"|[^" + System.IO.Path.PathSeparator + "\"]+)\\s*;?",
+    private static readonly Regex parseRegex = new("\\s*(\"[^\"]+\"|[^" + Path.PathSeparator + "\"]+)\\s*;?",
         RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 
     public SemicolonSeparatedString(string value)
@@ -36,8 +36,8 @@ public class SemicolonSeparatedString
 
     public override string ToString()
     {
-        return string.Join(System.IO.Path.PathSeparator, Items
-            .Select(s => s.Contains(System.IO.Path.PathSeparator, StringComparison.Ordinal) ? $"{QuoteChar}{s}{QuoteChar}" : s));
+        return string.Join(Path.PathSeparator, Items
+            .Select(s => s.Contains(Path.PathSeparator, StringComparison.Ordinal) ? $"{QuoteChar}{s}{QuoteChar}" : s));
     }
 
     public bool HasItem(string item)
