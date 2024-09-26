@@ -3,7 +3,7 @@
 
 # path
 Path is a command-line tool to manage PATH environment variable on Windows.
-It's a successor to my PathCleaner project. 
+It's a successor to my [PathCleaner](https://github.com/ssg/PathCleaner) project. 
 
 # installation
 Specifying version is required for pre-release projects on NuGet:
