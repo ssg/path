@@ -14,7 +14,6 @@ public static class Program
 
     public static int Main(string[] args)
     {
-        checkOS();
         var provider = new ServiceCollection()
             .AddCommands(Assembly.GetExecutingAssembly())
             .AddSingleton<IEnvironment>(new OSEnvironment())
@@ -29,14 +28,5 @@ Copyright (c) 2022 Sedat Kapanoglu - https://github.com/ssg/path")
             .UseServiceProviderCommands(provider);
         var parser = builder.Build();
         return parser.Invoke(args);
-    }
-
-    private static void checkOS()
-    {
-        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-        {
-            Console.WriteLine("This tool is designed to work with Windows environment only");
-            Environment.Exit(1);
-        }
     }
 }
