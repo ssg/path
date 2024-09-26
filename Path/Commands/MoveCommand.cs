@@ -3,7 +3,7 @@ using System.CommandLine.NamingConventionBinder;
 
 namespace PathCli.Commands;
 
-public enum MoveType
+enum MoveType
 {
     Top,
     Bottom,

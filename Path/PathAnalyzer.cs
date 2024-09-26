@@ -4,7 +4,7 @@
 /// Create an instance of PathAnalyzer.
 /// </summary>
 /// <param name="executableExtensions">List of executable extenions each prefixed with ".".</param>
-internal class PathAnalyzer(HashSet<string> executableExtensions)
+class PathAnalyzer(HashSet<string> executableExtensions)
 {
     public SortedDictionary<string, PathProblem>Analyze(PathString path)
     {

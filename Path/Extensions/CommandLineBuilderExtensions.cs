@@ -4,7 +4,7 @@ using System.CommandLine.Builder;
 
 namespace PathCli;
 
-public static class CommandLineBuilderExtensions
+static class CommandLineBuilderExtensions
 {
     public static CommandLineBuilder UseServiceProviderCommands(this CommandLineBuilder builder, ServiceProvider serviceProvider)
     {

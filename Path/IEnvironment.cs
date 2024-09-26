@@ -1,7 +1,7 @@
 ﻿
 namespace PathCli;
 
-public interface IEnvironment
+interface IEnvironment
 {
     HashSet<string> GetExecutableExtensions();
     PathString ReadPath(bool global);

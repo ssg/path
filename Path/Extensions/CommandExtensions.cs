@@ -2,7 +2,7 @@
 
 namespace PathCli;
 
-public static class CommandExtensions
+static class CommandExtensions
 {
     public static void AddGlobalOption(this Command cmd)
     {

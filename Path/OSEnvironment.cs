@@ -2,7 +2,7 @@
 
 namespace PathCli;
 
-public class OSEnvironment : IEnvironment
+class OSEnvironment : IEnvironment
 {
     private const string pathKey = "PATH";
     private const string pathExtKey = "PATHEXT";

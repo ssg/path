@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace PathCli;
 
-public static class ServiceCollectionExtensions
+static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCommands(this IServiceCollection services, Assembly assembly)
     {
