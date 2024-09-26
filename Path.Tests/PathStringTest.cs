@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.Utilities;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace PathCli.Tests;
 
