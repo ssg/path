@@ -16,33 +16,41 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
     - name: Build
       run: dotnet build --configuration Release
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
     - name: Test
       run: dotnet test --configuration Release --no-build
 
-  pack:
-    needs: [build, test]
-    runs-on: ubuntu-latest
-    steps:
     - name: Pack
       run: dotnet pack --configuration Release --no-build --output .
 
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+
   deploy-github:
-    needs: pack
+    needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: artifacts
+
     - name: Push to GitHub feed
       run: dotnet nuget push Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${{ secrets.GPM_TOKEN }}
 
   deploy-nuget:
-    needs: pack
+    needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: artifacts
+
     - name: Push to NuGet feed
       run: dotnet nuget push Path.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}        
