@@ -29,7 +29,8 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: nupkg
+        path: Path.${VERSION}.nupkg
 
   deploy-github:
     needs: build
@@ -38,7 +39,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        name: artifacts
+        name: nupkg
 
     - name: Push to GitHub feed
       run: dotnet nuget push Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${{ secrets.GPM_TOKEN }}
@@ -50,7 +51,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
-        name: artifacts
+        name: nupkg
 
     - name: Push to NuGet feed
       run: dotnet nuget push Path.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}        
