@@ -4,7 +4,7 @@ using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Reflection;
 
-namespace Path;
+namespace PathCli;
 
 public static class Program
 {

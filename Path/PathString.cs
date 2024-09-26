@@ -1,4 +1,4 @@
-﻿namespace Path;
+﻿namespace PathCli;
 
 /// <summary>
 /// PATH version of a SemicolonSeparatedString

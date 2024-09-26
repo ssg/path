@@ -1,6 +1,6 @@
 ﻿using System.CommandLine;
 
-namespace Path;
+namespace PathCli;
 
 public static class CommandExtensions
 {

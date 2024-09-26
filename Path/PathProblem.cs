@@ -1,4 +1,4 @@
-﻿namespace Path;
+﻿namespace PathCli;
 
 [Flags]
 public enum PathProblem

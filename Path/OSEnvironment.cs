@@ -1,6 +1,6 @@
 ﻿using System.Security;
 
-namespace Path;
+namespace PathCli;
 
 public class OSEnvironment : IEnvironment
 {

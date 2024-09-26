@@ -1,5 +1,5 @@
 ﻿
-namespace Path;
+namespace PathCli;
 
 public interface IEnvironment
 {

@@ -1,4 +1,4 @@
-﻿namespace Path;
+﻿namespace PathCli;
 
 /// <summary>
 /// Create an instance of PathAnalyzer.

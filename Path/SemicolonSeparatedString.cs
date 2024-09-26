@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Path;
+namespace PathCli;
 
 /// <summary>
 /// Case-insensitive item list separated by semicolon

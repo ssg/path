@@ -2,7 +2,7 @@
 using System.CommandLine;
 using System.Reflection;
 
-namespace Path;
+namespace PathCli;
 
 public static class ServiceCollectionExtensions
 {

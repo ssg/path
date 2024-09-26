@@ -1,7 +1,7 @@
 ﻿using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
 
-namespace Path.Commands;
+namespace PathCli.Commands;
 
 public enum MoveType
 {

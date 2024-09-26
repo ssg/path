@@ -2,7 +2,7 @@
 using System.CommandLine;
 using System.CommandLine.Builder;
 
-namespace Path;
+namespace PathCli;
 
 public static class CommandLineBuilderExtensions
 {
