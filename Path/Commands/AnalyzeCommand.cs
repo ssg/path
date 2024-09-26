@@ -35,7 +35,7 @@ class AnalyzeCommand : Command
 
         foreach (var (dir, problem) in problems)
         {
-            AnsiConsole.MarkupLine($"{dir} [red]{problemToString(problem)}[/]");
+            AnsiConsole.MarkupLine($"{dir} [red]{problem.ToProblemString()}[/]");
         }
 
         if (!fix && !whatif)
@@ -43,6 +43,11 @@ class AnalyzeCommand : Command
             return;
         }
 
+        fixProblems(whatif, global, path, problems);
+    }
+
+    private void fixProblems(bool whatif, bool global, PathString path, SortedDictionary<string, PathProblem> problems)
+    {
         int originalCount = path.Items.Count;
         int originalPathLen = path.ToString().Length;
 
@@ -51,43 +56,7 @@ class AnalyzeCommand : Command
         Console.WriteLine();
         foreach (var (dir, problem) in problems)
         {
-            Console.Write($"{dir}: ");
-
-            if ((problem & (PathProblem.Empty | PathProblem.Missing | PathProblem.NoExecutables)) != 0)
-            {
-                if (path.RemoveAll(dir))
-                {
-                    AnsiConsole.Markup("[green]Removed[/] ");
-                }
-                else
-                {
-                    AnsiConsole.Markup("[green]Sorted itself out, huh[/] ");
-                }
-            }
-
-            if (problem.HasFlag(PathProblem.Duplicate))
-            {
-                // leave only the topmost entry in the PATH
-                int index = path.Items.IndexOf(dir);
-                bool cleanedUp = false;
-                if (index >= 0)
-                {
-                    for (int i = index + 1; i < path.Items.Count; i++)
-                    {
-                        if (SemicolonSeparatedString.AreItemsSame(dir, path.Items[i]))
-                        {
-                            path.Items.RemoveAt(i);
-                            cleanedUp = true;
-                            i--;
-                        }
-                    }
-                }
-                if (cleanedUp)
-                {
-                    AnsiConsole.Markup("[green]Dupes removed[/] ");
-                }
-            }
-            Console.WriteLine();
+            fixProblem(path, dir, problem);
         }
         Console.WriteLine();
 
@@ -107,6 +76,47 @@ class AnalyzeCommand : Command
         }
         AnsiConsole.MarkupLine($"[green]{itemsRemoved}[/] unnecessary PATH items removed");
         AnsiConsole.MarkupLine($"[green]{savings}[/] characters saved ({perc}% saved)");
+    }
+
+    private static void fixProblem(PathString path, string dir, PathProblem problem)
+    {
+        Console.Write($"{dir}: ");
+
+        if ((problem & (PathProblem.Empty | PathProblem.Missing | PathProblem.NoExecutables)) != 0)
+        {
+            if (path.RemoveAll(dir))
+            {
+                AnsiConsole.Markup("[green]Removed[/] ");
+            }
+            else
+            {
+                AnsiConsole.Markup("[green]Sorted itself out, huh[/] ");
+            }
+        }
+
+        if (problem.HasFlag(PathProblem.Duplicate))
+        {
+            // leave only the topmost entry in the PATH
+            int index = path.Items.IndexOf(dir);
+            bool cleanedUp = false;
+            if (index >= 0)
+            {
+                for (int i = index + 1; i < path.Items.Count; i++)
+                {
+                    if (SemicolonSeparatedString.AreItemsSame(dir, path.Items[i]))
+                    {
+                        path.Items.RemoveAt(i);
+                        cleanedUp = true;
+                        i--;
+                    }
+                }
+            }
+            if (cleanedUp)
+            {
+                AnsiConsole.Markup("[green]Dupes removed[/] ");
+            }
+        }
+        Console.WriteLine();
     }
 
     private List<IDirectoryAnalyzer> buildAnalyzers()
@@ -132,27 +142,6 @@ class AnalyzeCommand : Command
                 break;
         }
         return analyzers;
-    }
-
-    private static readonly Dictionary<PathProblem, string> problemTextMap = new()
-    {
-        [PathProblem.Empty] = "Empty",
-        [PathProblem.NoExecutables] = "No executables",
-        [PathProblem.Duplicate] = "Duplicate",
-        [PathProblem.Missing] = "Missing",
-    };
-
-    private static string problemToString(PathProblem value)
-    {
-        var results = new List<string>();
-        foreach (var enumValue in Enum.GetValues<PathProblem>())
-        {
-            if (problemTextMap.TryGetValue(enumValue, out string? problemText) && value.HasFlag(enumValue))
-            {
-                results.Add($"[[{problemText}]]");
-            }
-        }
-        return string.Join(" ", results);
     }
 }
 
