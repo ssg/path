@@ -1,14 +1,5 @@
 root = true
 
-[*]
-indent_size = 4
-indent_style = space
-trim_trailing_whitespace = true
-guidelines = 110
-
-[*.csproj]
-indent_size = 2
-
 [*.cs]
 #### Naming styles ####
 
@@ -34,7 +25,7 @@ csharp_indent_labels = one_less_than_current
 csharp_using_directive_placement = outside_namespace:suggestion
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_braces = true:silent
-csharp_style_namespace_declarations = file_scoped:silent
+csharp_style_namespace_declarations = file_scoped:error
 csharp_style_expression_bodied_methods = false:silent
 csharp_style_expression_bodied_constructors = false:silent
 csharp_style_expression_bodied_operators = false:silent
@@ -62,3 +53,15 @@ csharp_style_prefer_utf8_string_literals = true:suggestion
 
 # IDE0130: Namespace does not match folder structure
 dotnet_diagnostic.IDE0130.severity = none
+
+[*]
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true
+guidelines = 110
+tab_width = 4
+end_of_line = crlf
+
+[*.csproj]
+indent_size = 2
+
