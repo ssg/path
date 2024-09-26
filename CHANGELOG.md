@@ -1,3 +1,8 @@
+# 0.2.0
+
+- Preliminary Unix support
+- Fix false positive "no executables" analysis
+
 # 0.1.3
 
 - Upgraded dependencies
