@@ -1,3 +1,7 @@
+# 0.2.1
+
+- Make it run on Unixes
+
 # 0.2.0
 
 - Preliminary Unix support
