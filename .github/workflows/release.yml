@@ -8,7 +8,7 @@ on:
             required: true
 
 env:
-  VERSION: ${{ github.event.inputs.version }}
+    VERSION: ${{ github.event.inputs.version }}
 
 jobs:
   build:
@@ -24,13 +24,13 @@ jobs:
       run: dotnet test --configuration Release --no-build
 
     - name: Pack
-      run: dotnet pack --configuration Release --no-build --output . --verbosity normal
+      run: dotnet pack --configuration Release --no-build --output out
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: nupkg
-        path: ./Path.${VERSION}.nupkg
+        path: out
 
   deploy-github:
     needs: build
@@ -42,7 +42,7 @@ jobs:
         name: nupkg
 
     - name: Push to GitHub feed
-      run: dotnet nuget push Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${{ secrets.GPM_TOKEN }}
+      run: dotnet nuget push out/Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${{ secrets.GPM_TOKEN }}
 
   deploy-nuget:
     needs: build
@@ -54,4 +54,4 @@ jobs:
         name: nupkg
 
     - name: Push to NuGet feed
-      run: dotnet nuget push Path.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}        
+      run: dotnet nuget push out/Path.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}        
