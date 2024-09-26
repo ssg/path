@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: nupkg
-        path: out
+        path: Path.${{ env.VERSION }}.nupkg
 
   deploy-github:
     needs: build
@@ -42,7 +42,7 @@ jobs:
         name: nupkg
 
     - name: Push to GitHub feed
-      run: dotnet nuget push out/Path.${VERSION}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${{ secrets.GPM_TOKEN }}
+      run: dotnet nuget push Path.${{ env.VERSION }}.nupkg --source https://nuget.pkg.github.com/ssg/index.json --api-key ${{ secrets.GPM_TOKEN }}
 
   deploy-nuget:
     needs: build
@@ -54,4 +54,4 @@ jobs:
         name: nupkg
 
     - name: Push to NuGet feed
-      run: dotnet nuget push out/Path.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}        
+      run: dotnet nuget push Path.${{ env.VERSION }}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}        
