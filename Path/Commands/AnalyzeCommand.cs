@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using PathCli.DirectoryAnalyzers;
+using Spectre.Console;
 using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
 
@@ -21,8 +22,10 @@ class AnalyzeCommand : Command
     public void Run(bool fix, bool whatif, bool global)
     {
         var path = env.ReadPath(global);
-        var exts = env.GetExecutableExtensions();
-        var analyzer = new PathAnalyzer(exts);
+
+        List<IDirectoryAnalyzer> analyzers = buildAnalyzers();
+
+        var analyzer = new PathAnalyzer(analyzers);
         var problems = analyzer.Analyze(path);
         if (problems.Count == 0)
         {
@@ -104,6 +107,31 @@ class AnalyzeCommand : Command
         }
         AnsiConsole.MarkupLine($"[green]{itemsRemoved}[/] unnecessary PATH items removed");
         AnsiConsole.MarkupLine($"[green]{savings}[/] characters saved ({perc}% saved)");
+    }
+
+    private List<IDirectoryAnalyzer> buildAnalyzers()
+    {
+        var analyzers = new List<IDirectoryAnalyzer>
+        {
+            new ExistenceAnalyzer(),
+            new EmptyAnalyzer(),
+        };
+        switch (Environment.OSVersion.Platform)
+        {
+            case PlatformID.Win32NT:
+                var exts = env.GetExecutableExtensions();
+                analyzers.Add(new WindowsMissingExecutableAnalyzer(exts));
+                break;
+
+            case PlatformID.Unix:
+                analyzers.Add(new UnixMissingExecutableAnalyzer());
+                break;
+            default:
+                Console.WriteLine($"Unsupported OS architecture: {Environment.OSVersion.Platform}");
+                Environment.Exit(1);
+                break;
+        }
+        return analyzers;
     }
 
     private static readonly Dictionary<PathProblem, string> problemTextMap = new()

@@ -1,7 +1,7 @@
 ﻿namespace PathCli;
 
 [Flags]
-enum PathProblem
+public enum PathProblem
 {
     None = 0,
     Missing = 1,

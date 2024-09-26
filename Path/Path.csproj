@@ -13,6 +13,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>path</ToolCommandName>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RootNamespace>PathCli</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

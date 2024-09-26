@@ -2,6 +2,7 @@
 
 - Preliminary Unix support
 - Fix false positive "no executables" analysis
+- Fix incorrect empty directory analysis
 
 # 0.1.3
 
