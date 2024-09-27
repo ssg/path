@@ -38,7 +38,7 @@ public class DelimitedString
         }
         else
         {
-            Items.AddRange(value.Split(delimiter));
+            Items.AddRange(value.Split(delimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
         }
     }
 

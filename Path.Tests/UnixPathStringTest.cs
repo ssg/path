@@ -7,6 +7,7 @@ public class UnixPathStringTest
 {
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
     [Test]
+    [TestCase("", new string[] { })]
     [TestCase("a:b", new[] { "a", "b" })]
     [TestCase("a:b", new[] { "a", "b" })]
     [TestCase("a:b:c", new[] { "a", "b", "c" })]

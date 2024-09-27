@@ -30,7 +30,7 @@ class OSEnvironment : IEnvironment
 
     private static EnvironmentVariableTarget getEnvTarget(bool global)
     {
-        return global ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
+        return global ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process;
     }
 
     public PathString ReadPath(bool global)
