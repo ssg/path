@@ -4,13 +4,9 @@ public class WindowsMissingExecutableAnalyzer(HashSet<string> executableExtensio
 {
     public PathProblem? Analyze(DirectoryInfo directory)
     {
-        foreach (var file in directory.EnumerateFiles())
-        {
-            if (executableExtensions.Contains(file.Extension, StringComparer.OrdinalIgnoreCase))
-            {
-                return null;
-            }
-        }
-        return PathProblem.NoExecutables;
+        return directory.EnumerateFiles()
+            .Any(f => executableExtensions.Contains(f.Extension))
+            ? null
+            : PathProblem.NoExecutables;
     }
 }

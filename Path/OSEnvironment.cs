@@ -4,8 +4,15 @@ namespace PathCli;
 
 class OSEnvironment : IEnvironment
 {
-    private const string pathKey = "PATH";
-    private const string pathExtKey = "PATHEXT";
+    const string pathKey = "PATH";
+    const string pathExtKey = "PATHEXT";
+    const char pathExtSeparator = ';';
+    readonly bool isWindows;
+
+    public OSEnvironment()
+    {
+        isWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+    }
 
     public void WritePath(PathString path, bool global)
     {
@@ -17,6 +24,7 @@ class OSEnvironment : IEnvironment
         catch (SecurityException)
         {
             Console.WriteLine("Access denied");
+            Environment.Exit(1);
         }
     }
 
@@ -28,14 +36,14 @@ class OSEnvironment : IEnvironment
     public PathString ReadPath(bool global)
     {
         string value = Environment.GetEnvironmentVariable(pathKey, getEnvTarget(global)) ?? string.Empty;
-        return new PathString(value);
+        return isWindows ? new WindowsPathString(value) : new UnixPathString(value);
     }
 
     public HashSet<string> GetExecutableExtensions()
     {
         var pathExt = Environment.GetEnvironmentVariable(pathExtKey);
         var exts = pathExt is string ext
-            ? new HashSet<string>(ext.Split(Path.PathSeparator))
+            ? new HashSet<string>(ext.Split(pathExtSeparator), StringComparer.OrdinalIgnoreCase)
             : [];
         return exts;
     }

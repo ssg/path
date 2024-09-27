@@ -1,14 +1,22 @@
 ﻿namespace PathCli;
 
-/// <summary>
-/// PATH version of a SemicolonSeparatedString
-/// </summary>
-public class PathString(string value) : SemicolonSeparatedString(value)
+public class WindowsPathString(string value) 
+    : PathString(value, delimiter: ';', quoteChar: '"', StringComparison.OrdinalIgnoreCase)
+{
+}
+
+public class UnixPathString(string value) 
+    : PathString(value, delimiter: ':', quoteChar: null, StringComparison.Ordinal)
+{
+}
+
+public abstract class PathString(string value, char delimiter, char? quoteChar, StringComparison pathComparison) 
+    : DelimitedString(value, delimiter, quoteChar, pathComparison), IPathString
 {
     public bool Add(string item)
     {
         item = item.Trim();
-        if (IsItemEscaped(item))
+        if (IsItemQuoted(item))
         {
             item = item[1..^1];
         }
@@ -16,6 +24,11 @@ public class PathString(string value) : SemicolonSeparatedString(value)
         if (HasItem(item))
         {
             return false;
+        }
+
+        if (QuoteChar is null && item.Contains(Delimiter))
+        {
+            throw new InvalidOperationException($"Item cannot contain delimiter '{Delimiter}'");
         }
         Items.Add(item);
         return true;

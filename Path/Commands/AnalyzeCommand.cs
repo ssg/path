@@ -7,9 +7,11 @@ namespace PathCli.Commands;
 
 class AnalyzeCommand : Command
 {
-    private readonly IEnvironment env;
+    readonly IEnvironment env;
+    readonly PathAnalyzer pathAnalyzer;
+    readonly StringComparer pathComparer;
 
-    public AnalyzeCommand(IEnvironment env)
+    public AnalyzeCommand(IEnvironment env, PathAnalyzer pathAnalyzer, StringComparer pathComparer)
         : base("analyze", "find invalid/duplicate/redundant entries in PATH")
     {
         AddOption(new Option<bool>("--fix", () => false, "Make changes to the PATH to fix the issues"));
@@ -17,16 +19,15 @@ class AnalyzeCommand : Command
         this.AddGlobalOption();
         Handler = CommandHandler.Create(Run);
         this.env = env;
+        this.pathAnalyzer = pathAnalyzer;
+        this.pathComparer = pathComparer;
     }
 
     public void Run(bool fix, bool whatif, bool global)
     {
         var path = env.ReadPath(global);
 
-        List<IDirectoryAnalyzer> analyzers = buildAnalyzers();
-
-        var analyzer = new PathAnalyzer(analyzers);
-        var problems = analyzer.Analyze(path);
+        var problems = pathAnalyzer.Analyze(path);
         if (problems.Count == 0)
         {
             Console.WriteLine("No problems with PATH found");
@@ -78,7 +79,7 @@ class AnalyzeCommand : Command
         AnsiConsole.MarkupLine($"[green]{savings}[/] characters saved ({perc}% saved)");
     }
 
-    private static void fixProblem(PathString path, string dir, PathProblem problem)
+    private void fixProblem(PathString path, string dir, PathProblem problem)
     {
         Console.Write($"{dir}: ");
 
@@ -103,7 +104,7 @@ class AnalyzeCommand : Command
             {
                 for (int i = index + 1; i < path.Items.Count; i++)
                 {
-                    if (SemicolonSeparatedString.AreItemsSame(dir, path.Items[i]))
+                    if (pathComparer.Equals(dir, path.Items[i]))
                     {
                         path.Items.RemoveAt(i);
                         cleanedUp = true;
@@ -117,31 +118,6 @@ class AnalyzeCommand : Command
             }
         }
         Console.WriteLine();
-    }
-
-    private List<IDirectoryAnalyzer> buildAnalyzers()
-    {
-        var analyzers = new List<IDirectoryAnalyzer>
-        {
-            new ExistenceAnalyzer(),
-            new EmptyAnalyzer(),
-        };
-        switch (Environment.OSVersion.Platform)
-        {
-            case PlatformID.Win32NT:
-                var exts = env.GetExecutableExtensions();
-                analyzers.Add(new WindowsMissingExecutableAnalyzer(exts));
-                break;
-
-            case PlatformID.Unix:
-                analyzers.Add(new UnixMissingExecutableAnalyzer());
-                break;
-            default:
-                Console.WriteLine($"Unsupported OS architecture: {Environment.OSVersion.Platform}");
-                Environment.Exit(1);
-                break;
-        }
-        return analyzers;
     }
 }
 

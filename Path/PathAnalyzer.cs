@@ -2,11 +2,13 @@
 
 namespace PathCli;
 
-class PathAnalyzer(List<IDirectoryAnalyzer> directoryAnalyzers)
+class PathAnalyzer(IEnumerable<IDirectoryAnalyzer> directoryAnalyzers, StringComparer pathComparer)
 {
+    readonly StringComparer pathComparer = pathComparer;
+
     public SortedDictionary<string, PathProblem> Analyze(PathString path)
     {
-        SortedDictionary<string, PathProblem> results = new(StringComparer.OrdinalIgnoreCase);
+        SortedDictionary<string, PathProblem> results = new(pathComparer);
         foreach (string dir in path.Items)
         {
             DirectoryInfo dirInfo = new(dir);
