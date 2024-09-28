@@ -1,6 +1,6 @@
 ﻿namespace PathCli.DirectoryAnalyzers;
 
-public class EmptyAnalyzer : IDirectoryAnalyzer
+class EmptyAnalyzer : IDirectoryAnalyzer
 {
     public PathProblem? Analyze(DirectoryInfo directory)
     {

@@ -40,7 +40,7 @@ class MoveCommand : Command
             }
             return true;
         }
-        var path = env.ReadPath(global);
+        var path = global ? env.ReadGlobalPath() : env.ReadPath();
         if (path.Items.IndexOf(directory) < 0)
         {
             Console.Error.WriteLine("directory doesn't exist in PATH");

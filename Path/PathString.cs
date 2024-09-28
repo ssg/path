@@ -1,16 +1,16 @@
 ﻿namespace PathCli;
 
-public class WindowsPathString(string value) 
+class WindowsPathString(string value) 
     : PathString(value, delimiter: ';', quoteChar: '"', StringComparison.OrdinalIgnoreCase)
 {
 }
 
-public class UnixPathString(string value) 
+class UnixPathString(string value) 
     : PathString(value, delimiter: ':', quoteChar: null, StringComparison.Ordinal)
 {
 }
 
-public abstract class PathString(string value, char delimiter, char? quoteChar, StringComparison pathComparison) 
+abstract class PathString(string value, char delimiter, char? quoteChar, StringComparison pathComparison) 
     : DelimitedString(value, delimiter, quoteChar, pathComparison), IPathString
 {
     public bool Add(string item)

@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
+using System.Security;
 
 namespace PathCli.Commands;
 
@@ -18,13 +19,59 @@ class AddCommand : Command
 
     public void Run(string directory, bool global)
     {
-        var path = env.ReadPath(global);
+        if (global)
+        {
+            runGlobal(directory);
+        }
+
+        var path = env.ReadPath();
         if (!path.Add(directory))
         {
-            Console.WriteLine($"{directory} is already in PATH");
+            alreadyInPath(directory);
             return;
         }
-        env.WritePath(path, global);
+        try
+        {
+            env.WritePath(path);
+        }
+        catch (NotImplementedException)
+        {
+            Console.Error.WriteLine("This operation isn't supported");
+            Environment.Exit(1);
+        }
+
+        reportAdded(directory);
+    }
+
+    private void runGlobal(string directory)
+    {
+        var path = env.ReadGlobalPath();
+        if (!path.Add(directory))
+        {
+            alreadyInPath(directory);
+            return;
+        }
+        try
+        {
+            env.WriteGlobalPath(path);
+        }
+        catch (SecurityException)
+        {
+            Console.Error.WriteLine("Access denied");
+            Environment.Exit(1);
+        }
+
+        reportAdded(directory);
+    }
+
+    private static void reportAdded(string directory)
+    {
         Console.WriteLine($"{directory} added to PATH");
+    }
+
+    private static void alreadyInPath(string directory)
+    {
+        Console.WriteLine($"{directory} is already in PATH");
+        return;
     }
 }

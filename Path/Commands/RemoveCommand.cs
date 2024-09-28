@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
+using System.Security;
 
 namespace PathCli.Commands;
 
@@ -17,7 +18,7 @@ class RemoveCommand : Command
 
     public void Run(string directory, bool global)
     {
-        var path = env.ReadPath(global);
+        var path = global ? env.ReadGlobalPath() : env.ReadPath();
         bool found = path.RemoveAll(directory);
         if (!found)
         {
@@ -25,6 +26,22 @@ class RemoveCommand : Command
             return;
         }
         Console.WriteLine($"{directory} removed from PATH");
-        env.WritePath(path, global);
+
+        try
+        {
+            if (global)
+            {
+                env.WriteGlobalPath(path);
+            }
+            else
+            {
+                env.WritePath(path);
+            }
+        }
+        catch (SecurityException)
+        {
+            Console.Error.WriteLine("Access denied. Try running the command as an administrator.");
+            Environment.Exit(1);
+        }
     }
 }

@@ -4,6 +4,9 @@ using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("Path.Tests")]
 
 namespace PathCli;
 
@@ -37,38 +40,32 @@ public static class Program
 #pragma warning disable IDE0058 // Expression value is never used
     private static void configureServices(ServiceCollection services)
     {
-        services
-            .AddCommands(Assembly.GetExecutingAssembly())
-            .AddSingleton<IEnvironment, OSEnvironment>()
-            .AddSingleton<IDirectoryAnalyzer, ExistenceAnalyzer>()
-            .AddSingleton<IDirectoryAnalyzer, EmptyAnalyzer>();
+        services.AddCommands(Assembly.GetExecutingAssembly())
+                .AddSingleton<IEnvironment, WindowsEnvironment>()
+                .AddSingleton<IDirectoryAnalyzer, ExistenceAnalyzer>()
+                .AddSingleton<IDirectoryAnalyzer, EmptyAnalyzer>();
 
         switch (Environment.OSVersion.Platform)
         {
             case PlatformID.Win32NT:
                 {
-                    services
-                        .AddSingleton(StringComparer.OrdinalIgnoreCase)
-                        .AddSingleton<IDirectoryAnalyzer>((sp) =>
-                        {
-                            var env = sp.GetRequiredService<IEnvironment>();
-                            return new WindowsMissingExecutableAnalyzer(env.GetExecutableExtensions());
-                        });
+                    services.AddSingleton(StringComparer.OrdinalIgnoreCase)
+                            .AddSingleton<IDirectoryAnalyzer, WindowsMissingExecutableAnalyzer>();
                     break;
                 }
 
             case PlatformID.Unix:
                 services.AddSingleton(StringComparer.Ordinal)
-                    .AddSingleton<IDirectoryAnalyzer, UnixMissingExecutableAnalyzer>();
+                        .AddSingleton<IDirectoryAnalyzer, UnixMissingExecutableAnalyzer>();
                 break;
 
             case PlatformID.MacOSX:
                 services.AddSingleton(StringComparer.OrdinalIgnoreCase)
-                    .AddSingleton<IDirectoryAnalyzer, UnixMissingExecutableAnalyzer>();
+                        .AddSingleton<IDirectoryAnalyzer, UnixMissingExecutableAnalyzer>();
                 break;
 
             default:
-                Console.WriteLine($"Unsupported OS architecture: {Environment.OSVersion.Platform}");
+                Console.Error.WriteLine($"Unsupported OS architecture: {Environment.OSVersion.Platform}");
                 Environment.Exit(1);
                 return;
         }

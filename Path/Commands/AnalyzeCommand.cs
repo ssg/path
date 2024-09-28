@@ -2,6 +2,7 @@
 using Spectre.Console;
 using System.CommandLine;
 using System.CommandLine.NamingConventionBinder;
+using System.Security;
 
 namespace PathCli.Commands;
 
@@ -25,7 +26,7 @@ class AnalyzeCommand : Command
 
     public void Run(bool fix, bool whatif, bool global)
     {
-        var path = env.ReadPath(global);
+        var path = global ? env.ReadGlobalPath() : env.ReadPath();
 
         var problems = pathAnalyzer.Analyze(path);
         if (problems.Count == 0)
@@ -63,8 +64,24 @@ class AnalyzeCommand : Command
 
         if (!whatif)
         {
-            env.WritePath(path, global);
-            Console.WriteLine("Changes saved");
+            try
+            {
+                if (global)
+                {
+                    env.WriteGlobalPath(path);
+                }
+                else
+                {
+                    env.WritePath(path);
+                }
+                Console.WriteLine("Changes saved");
+            }
+            catch (SecurityException)
+            {
+                Console.Error.WriteLine("Access denied (try running as administrator)");
+                Environment.Exit(1);
+                return;
+            }
         }
         int newPathLen = path.ToString().Length;
         int savings = originalPathLen - newPathLen;

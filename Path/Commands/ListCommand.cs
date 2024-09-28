@@ -17,7 +17,7 @@ class ListCommand : Command
 
     public void Run(bool global)
     {
-        var path = env.ReadPath(global);
+        var path = global ? env.ReadGlobalPath() : env.ReadPath();
         foreach (string dir in path.Items)
         {
             Console.WriteLine(dir);

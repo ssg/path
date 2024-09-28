@@ -2,7 +2,7 @@
 
 namespace PathCli;
 
-public class DelimitedString
+class DelimitedString
 {
     public char? QuoteChar { get; }
     public StringComparison PathComparison { get; }

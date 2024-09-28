@@ -1,7 +1,13 @@
-﻿namespace PathCli.DirectoryAnalyzers;
+﻿
+namespace PathCli.DirectoryAnalyzers;
 
-public class WindowsMissingExecutableAnalyzer(HashSet<string> executableExtensions) : IDirectoryAnalyzer
+class WindowsMissingExecutableAnalyzer(HashSet<string> executableExtensions) : IDirectoryAnalyzer
 {
+    public WindowsMissingExecutableAnalyzer()
+        : this(WindowsEnvironment.GetExecutableExtensions())
+    {
+    }
+
     public PathProblem? Analyze(DirectoryInfo directory)
     {
         return directory.EnumerateFiles()
