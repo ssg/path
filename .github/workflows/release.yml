@@ -1,13 +1,12 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-        version:
-            description: 'Version to release'
-            required: true
+  release:
+    types: [published]
 
 env:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    DOTNET_NOLOGO: true
     VERSION: ${{ github.event.inputs.version }}
 
 jobs:
