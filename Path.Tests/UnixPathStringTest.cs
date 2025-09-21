@@ -5,7 +5,6 @@ namespace PathCli.Tests;
 [TestFixture]
 public class UnixPathStringTest
 {
-#pragma warning disable CA1861 // Avoid constant arrays as arguments
     [Test]
     [TestCase("", new string[] { })]
     [TestCase("a:b", new[] { "a", "b" })]
@@ -74,5 +73,4 @@ public class UnixPathStringTest
         var path = new UnixPathString(input);
         Assert.That(path.ToString(), Is.EqualTo(input));
     }
-#pragma warning restore CA1861 // Avoid constant arrays as arguments
 }
