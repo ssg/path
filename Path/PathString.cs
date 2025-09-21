@@ -76,7 +76,7 @@ abstract class PathString(string value, char delimiter, char? quoteChar, StringC
         return move(directory, Items.IndexOf(directory), destinationIndex);
     }
 
-    private bool move(string directory, int srcIndex, int destIndex)
+    bool move(string directory, int srcIndex, int destIndex)
     {
         if (srcIndex < 0 || destIndex < 0 || destIndex >= Items.Count)
         {

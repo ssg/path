@@ -24,7 +24,7 @@ class PathAnalyzer(IEnumerable<IDirectoryAnalyzer> directoryAnalyzers, StringCom
         return results;
     }
 
-    private static void analyzeDupes(PathString path, SortedDictionary<string, PathProblem> results)
+    static void analyzeDupes(PathString path, SortedDictionary<string, PathProblem> results)
     {
         var dupes = path.Items.GroupBy(s => s)
             .Where(g => g.Count() > 1)
@@ -36,7 +36,7 @@ class PathAnalyzer(IEnumerable<IDirectoryAnalyzer> directoryAnalyzers, StringCom
         }
     }
 
-    private static void setProblem(SortedDictionary<string, PathProblem> results, string dir, PathProblem problem)
+    static void setProblem(SortedDictionary<string, PathProblem> results, string dir, PathProblem problem)
     {
         if (results.ContainsKey(dir))
         {
@@ -46,7 +46,7 @@ class PathAnalyzer(IEnumerable<IDirectoryAnalyzer> directoryAnalyzers, StringCom
         results.Add(dir, problem);
     }
 
-    private PathProblem? runDirectoryAnalyzers(DirectoryInfo dirInfo)
+    PathProblem? runDirectoryAnalyzers(DirectoryInfo dirInfo)
     {
         foreach (var analyzer in directoryAnalyzers)
         {

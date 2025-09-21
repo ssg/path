@@ -48,7 +48,7 @@ class AnalyzeCommand : Command
         fixProblems(whatif, global, path, problems);
     }
 
-    private void fixProblems(bool whatif, bool global, PathString path, SortedDictionary<string, PathProblem> problems)
+    void fixProblems(bool whatif, bool global, PathString path, SortedDictionary<string, PathProblem> problems)
     {
         int originalCount = path.Items.Count;
         int originalPathLen = path.ToString().Length;
@@ -96,7 +96,7 @@ class AnalyzeCommand : Command
         AnsiConsole.MarkupLine($"[green]{savings}[/] characters saved ({perc}% saved)");
     }
 
-    private void fixProblem(PathString path, string dir, PathProblem problem)
+    void fixProblem(PathString path, string dir, PathProblem problem)
     {
         Console.Write($"{dir}: ");
 

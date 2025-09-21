@@ -13,7 +13,7 @@ namespace PathCli;
 public static class Program
 {
 #pragma warning disable CS8602 // No possibility of Dereference of a possibly null reference.
-    private static readonly string version = typeof(Program).Assembly.GetName().Version.ToString();
+    static readonly string version = typeof(Program).Assembly.GetName().Version.ToString();
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
     public static int Main(string[] args)
@@ -38,7 +38,7 @@ public static class Program
     }
 
 #pragma warning disable IDE0058 // Expression value is never used
-    private static void configureServices(ServiceCollection services)
+    static void configureServices(ServiceCollection services)
     {
         services.AddCommands(Assembly.GetExecutingAssembly())
                 .AddSingleton<IEnvironment, WindowsEnvironment>()

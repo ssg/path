@@ -6,7 +6,7 @@ namespace PathCli.Commands;
 
 class AddCommand : Command
 {
-    private readonly IEnvironment env;
+    readonly IEnvironment env;
 
     public AddCommand(IEnvironment env)
         : base("add", "add directory to PATH")
@@ -43,7 +43,7 @@ class AddCommand : Command
         reportAdded(directory);
     }
 
-    private void runGlobal(string directory)
+    void runGlobal(string directory)
     {
         var path = env.ReadGlobalPath();
         if (!path.Add(directory))
@@ -64,12 +64,12 @@ class AddCommand : Command
         reportAdded(directory);
     }
 
-    private static void reportAdded(string directory)
+    static void reportAdded(string directory)
     {
         Console.WriteLine($"{directory} added to PATH");
     }
 
-    private static void alreadyInPath(string directory)
+    static void alreadyInPath(string directory)
     {
         Console.WriteLine($"{directory} is already in PATH");
         return;

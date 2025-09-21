@@ -13,7 +13,7 @@ enum MoveType
 
 class MoveCommand : Command
 {
-    private readonly IEnvironment env;
+    readonly IEnvironment env;
 
     public MoveCommand(IEnvironment env)
         : base("move", "move path directory to another place")

@@ -1,6 +1,6 @@
 ﻿namespace PathCli.DirectoryAnalyzers;
 
-internal class UnixMissingExecutableAnalyzer : IDirectoryAnalyzer
+class UnixMissingExecutableAnalyzer : IDirectoryAnalyzer
 {
     const UnixFileMode anyExecuteFlag = UnixFileMode.UserExecute
                                       | UnixFileMode.GroupExecute

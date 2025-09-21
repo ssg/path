@@ -5,7 +5,7 @@ namespace PathCli.Commands;
 
 class ListCommand : Command
 {
-    private readonly IEnvironment env;
+    readonly IEnvironment env;
 
     public ListCommand(IEnvironment env)
         : base("list", "list directories in PATH")

@@ -6,7 +6,7 @@ namespace PathCli.Commands;
 
 class RemoveCommand : Command
 {
-    private readonly IEnvironment env;
+    readonly IEnvironment env;
 
     public RemoveCommand(IEnvironment env)
         : base("remove", "remove all instances of the directory from PATH")
