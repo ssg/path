@@ -69,7 +69,7 @@ path move C:\some\new\path after C:\Windows
 or before?
 
 ```bat
-path move C:\som\new\path before C:\Windows
+path move C:\some\new\path before C:\Windows
 ```
 
 ## path analyze
