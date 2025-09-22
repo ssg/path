@@ -4,7 +4,7 @@ using PathCli.DirectoryAnalyzers;
 namespace PathCli.Tests;
 
 [TestFixture]
-[FixtureLifeCycle(LifeCycle.InstancePerTestCase)]
+[FixtureLifeCycle(LifeCycle.InstancePerTestCase)] // this is critical for ctor based test initialization to work
 class PathAnalyzerTest
 {
     private readonly TestDirectoryAnalyzer testAnalyzer1;
